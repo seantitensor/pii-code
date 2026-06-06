@@ -1,0 +1,23 @@
+// BRAAVE ECG Arduino Sketch v2
+// 250Hz sampling — reliable at 115200 baud with USB isolator
+// Upload this FIRST, then run the Python pipeline
+
+const int ECG_PIN  = A0;
+const int LO_PLUS  = 10;
+const int LO_MINUS = 11;
+
+void setup() {
+  Serial.begin(115200);   // faster baud = cleaner serial, less buffer noise
+  pinMode(LO_PLUS,  INPUT);
+  pinMode(LO_MINUS, INPUT);
+  analogReference(DEFAULT);
+}
+
+void loop() {
+  if ((digitalRead(LO_PLUS) == 1) || (digitalRead(LO_MINUS) == 1)) {
+    Serial.println("!");   // leads off — electrode not making contact
+  } else {
+    Serial.println(analogRead(ECG_PIN));
+  }
+  delay(4);   // 250Hz sample rate — reliable with 115200 baud
+}
