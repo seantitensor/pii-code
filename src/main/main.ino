@@ -139,9 +139,8 @@ void loop() {
   if (now - lastEcgMs >= 4) {
     lastEcgMs = now;
     if (digitalRead(LO_PLUS) || digitalRead(LO_MINUS)) {
-      Serial.println("ECG: LEADS OFF");
+      Serial.println(0);   // leads off — plot zero so the line doesn't jump
     } else {
-      Serial.print("ECG: ");
       Serial.println(analogRead(ECG_PIN));
     }
   }
